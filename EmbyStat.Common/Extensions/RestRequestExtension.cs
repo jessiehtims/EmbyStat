@@ -8,9 +8,14 @@ namespace EmbyStat.Common.Extensions
 {
     public static class RestRequestExtension
     {
-        public static void AddItemQueryAsParameters(this IRestRequest request, ItemQuery query)
+        public static void AddItemQueryAsParameters(this IRestRequest request, ItemQuery query, string userId = "")
         {
-            request.AddQueryParameter("UserId", new Guid("fa89fb6cf3b74cc5bc179522e3b94246").ToString());
+            if(userId == "") {
+                request.AddQueryParameter("UserId", new Guid("fa89fb6cf3b74cc5bc179522e3b94246").ToString());
+            }else {
+                request.AddQueryParameter("UserId", new Guid(userId).ToString());
+            }
+            
             if (!query.EnableTotalRecordCount)
             {
                 request.AddQueryParameter("EnableTotalRecordCount", query.EnableTotalRecordCount.ToString());

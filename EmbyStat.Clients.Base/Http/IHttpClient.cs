@@ -20,12 +20,12 @@ namespace EmbyStat.Clients.Base.Http
         JObject GetDevices();
         bool Ping();
         MediaServerUdpBroadcast SearchServer();
-        List<Movie> GetMovies(string parentId, int startIndex, int limit);
-        List<BoxSet> GetBoxSet(string parentId);
-        List<Show> GetShows(string libraryId);
-        List<Season> GetSeasons(string parentId);
-        List<Episode> GetEpisodes(IEnumerable<string> parentIds, string showId);
-        int GetMovieCount(string parentId);
+        List<Movie> GetMovies(string parentId, int startIndex, int limit, string userId = "");
+        List<BoxSet> GetBoxSet(string parentId, string userId = "");
+        List<Show> GetShows(string libraryId, string userId = "");
+        List<Season> GetSeasons(string parentId, string userId = "");
+        List<Episode> GetEpisodes(IEnumerable<string> parentIds, string showId, string userId = "");
+        int GetMovieCount(string parentId, string userId = "");
         Person GetPersonByName(string personName);
         QueryResult<BaseItemDto> GetMediaFolders();
     }

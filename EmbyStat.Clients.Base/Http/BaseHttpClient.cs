@@ -200,7 +200,7 @@ namespace EmbyStat.Clients.Base.Http
             return ExecuteAuthenticatedCall<JObject>(request);
         }
 
-        public List<Movie> GetMovies(string parentId, int startIndex, int limit)
+        public List<Movie> GetMovies(string parentId, int startIndex, int limit, string userId = "")
         {
             var query = new ItemQuery
                 {
@@ -222,12 +222,12 @@ namespace EmbyStat.Clients.Base.Http
                 };
 
             var request = new RestRequest($"Items", Method.GET);
-            request.AddItemQueryAsParameters(query);
+            request.AddItemQueryAsParameters(query, userId);
             var baseItems = ExecuteAuthenticatedCall<QueryResult<BaseItemDto>>(request);
             return baseItems.Items.Select(x => x.ConvertToMovie(parentId)).ToList();
         }
 
-        public List<BoxSet> GetBoxSet(string parentId)
+        public List<BoxSet> GetBoxSet(string parentId, string userId = "")
         {
             var query = new ItemQuery
             {
@@ -247,12 +247,12 @@ namespace EmbyStat.Clients.Base.Http
             };
 
             var request = new RestRequest($"Items", Method.GET);
-            request.AddItemQueryAsParameters(query);
+            request.AddItemQueryAsParameters(query, userId);
             var baseItems = ExecuteAuthenticatedCall<QueryResult<BaseItemDto>>(request);
             return baseItems.Items.Select(BoxSetConverter.ConvertToBoxSet).ToList();
         }
 
-        public List<Show> GetShows(string parentId)
+        public List<Show> GetShows(string parentId, string userId = "")
         {
             var query = new ItemQuery
             {
@@ -273,12 +273,12 @@ namespace EmbyStat.Clients.Base.Http
             };
 
             var request = new RestRequest($"Items", Method.GET);
-            request.AddItemQueryAsParameters(query);
+            request.AddItemQueryAsParameters(query, userId);
             var baseItems = ExecuteAuthenticatedCall<QueryResult<BaseItemDto>>(request);
             return baseItems.Items.Select(x => x.ConvertToShow(parentId)).ToList();
         }
 
-        public List<Season> GetSeasons(string parentId)
+        public List<Season> GetSeasons(string parentId, string userId = "")
         {
             var query = new ItemQuery
             {
@@ -298,12 +298,12 @@ namespace EmbyStat.Clients.Base.Http
             };
 
             var request = new RestRequest($"Items", Method.GET);
-            request.AddItemQueryAsParameters(query);
+            request.AddItemQueryAsParameters(query, userId);
             var baseItems = ExecuteAuthenticatedCall<QueryResult<BaseItemDto>>(request);
             return baseItems.Items.Select(x => x.ConvertToSeason()).ToList();
         }
 
-        public List<Episode> GetEpisodes(IEnumerable<string> parentIds, string showId)
+        public List<Episode> GetEpisodes(IEnumerable<string> parentIds, string showId, string userId = "")
         {
             var episodes = new List<Episode>();
             foreach (var parentId in parentIds)
@@ -326,7 +326,7 @@ namespace EmbyStat.Clients.Base.Http
                 };
 
                 var request = new RestRequest($"Items", Method.GET);
-                request.AddItemQueryAsParameters(query);
+                request.AddItemQueryAsParameters(query, userId);
                 var baseItems = ExecuteAuthenticatedCall<QueryResult<BaseItemDto>>(request);
                 episodes.AddRange(baseItems.Items.Select(x => x.ConvertToEpisode(showId)));
             }
@@ -334,7 +334,7 @@ namespace EmbyStat.Clients.Base.Http
             return episodes;
         }
 
-        public int GetMovieCount(string parentId)
+        public int GetMovieCount(string parentId, string userId = "")
         {
             var query = new ItemQuery
             {
@@ -347,7 +347,7 @@ namespace EmbyStat.Clients.Base.Http
             };
 
             var request = new RestRequest($"Items", Method.GET);
-            request.AddItemQueryAsParameters(query);
+            request.AddItemQueryAsParameters(query, userId);
             var baseItems = ExecuteAuthenticatedCall<QueryResult<BaseItemDto>>(request);
             return baseItems?.TotalRecordCount ?? 0;
         }
