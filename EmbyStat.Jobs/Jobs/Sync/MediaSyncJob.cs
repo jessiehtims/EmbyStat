@@ -141,6 +141,7 @@ namespace EmbyStat.Jobs.Jobs.Sync
             try
             {
                 var movies = _httpClient.GetMovies(parentId, startIndex, limit);
+                if(movies.Count == 0) return movies;
                 var boxSets = _httpClient.GetBoxSet(parentId);
                 if (boxSets.Any())
                 {
